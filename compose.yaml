@@ -1,0 +1,11 @@
+services:
+    nockchain:
+        image: herokatodev/nockchain:latest
+        environment:
+            - WALLET=insert_here_wallet_base58
+            - CHAIN_CODE=insert_here_your_chain_code
+        tty: true
+        stdin_open: true
+        restart: always
+        # deploy:
+        #   replicas: 1

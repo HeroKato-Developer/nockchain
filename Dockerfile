@@ -16,9 +16,12 @@ RUN git clone https://github.com/zorp-corp/nockchain
 WORKDIR /opt/nockchain
 
 RUN cp .env_example .env
+# RUN sed -i "s|^export MINING_PUBKEY := .*|export MINING_PUBKEY := $WALLET|" Makefile
+# RUN sed -i "s|^export MINING_PUBKEY=.*|export MINING_PUBKEY=$WALLET|" .env
 
 RUN make install-hoonc
 RUN make build
+RUN make install-nockchain-wallet
 RUN make install-nockchain
 
 #? used to debug locally for faster builds
