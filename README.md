@@ -1,13 +1,27 @@
+# how to install and run
 clone the repo and execute install-docker.sh to install docker engine into ubuntu
 
-sudo ./install-docker.sh
+    sudo ./install-docker.sh
 
-once installed you can start the container using this command to start it,
-replace 3Emudaonatdb6hCxvvXvHKFJ8We6Mvd7EMucxfaQUEhEcyS7RMt8y9pKgLe4vvMK3hyt9WV8SZhGggYEfGzRRdg9MTGmKNZQLZdyq1zzsKgTh2CFg6qnR8khv5odzGBgMVMb with your own wallet address
+once installed modify the file compose.yaml
+adding your wallet b58 address and your chaincode (you should have saved them once created your nockchain wallet)
+you will see these two things to change inside the file
 
-docker run --name=nockchain -itd -p 3005:3005 -p 3006:3006 herokatodev/nockchain:latest 3Emudaonatdb6hCxvvXvHKFJ8We6Mvd7EMucxfaQUEhEcyS7RMt8y9pKgLe4vvMK3hyt9WV8SZhGggYEfGzRRdg9MTGmKNZQLZdyq1zzsKgTh2CFg6qnR8khv5odzGBgMVMb
+    environment:
+        - WALLET=insert_here_wallet_base58
+        - CHAIN_CODE=insert_here_your_chain_code
 
-i'm pretty unsure if nockchain needs redirects on those ports 3005, 3006, because at the time i'm writing this this is the point we reached
-![image](https://github.com/user-attachments/assets/0f415a8b-fc98-43c9-94a9-f26544834c57)
+once modified the file to start the containers use this command
 
-but nobody confirmed with us that is properly working...
+    docker compose up --scale nockchain=6 -d
+
+^ this will create 6 miners
+
+# wallet balance
+in case you want to check your wallet balance you have to enter a docker container, to do so execute
+
+    docker exec -it nameofyourcontainer /bin/sh
+
+once inside execute this command to start the wallet request for balance
+
+    nockchain-wallet --nockchain-socket .socket/nockchain_npc.sock update-balance
