@@ -10,6 +10,7 @@ you will see these two things to change inside the file
     environment:
         - WALLET=insert_here_wallet_base58
         - CHAIN_CODE=insert_here_your_chain_code
+        - PEERS_LIST=insert_here_ips_of_machines_separated_with_; 
 
 once modified the file to start the containers use this command
 
@@ -20,8 +21,4 @@ once modified the file to start the containers use this command
 # wallet balance
 in case you want to check your wallet balance you have to enter a docker container, to do so execute
 
-    docker exec -it nameofyourcontainer /bin/sh
-
-once inside execute this command to start the wallet request for balance
-
-    nockchain-wallet --nockchain-socket .socket/nockchain_npc.sock update-balance
+    docker exec -it nameofyourcontainer /opt/balance.sh
