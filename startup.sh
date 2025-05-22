@@ -2,8 +2,17 @@
 # retrieve args of launch 
 wallet_address="${1:-$WALLET}"
 chain_code="${2:-$CHAIN_CODE}"
+peers_list="${3:-$PEERS_LIST}"
 echo "Wallet address: $wallet_address"
 echo "Chain code: $chain_code"
+echo "Peers list: $peers_list"
+
+peer_args=""
+IFS=';' read -ra ADDR <<< "$peers_list"
+for ip in "${ADDR[@]}"; do
+  peer_args+=" --peer /ip4/${ip}/udp/3006/quic-v1"
+done
+echo "Peer args: $peer_args"
 
 cd /opt/nockchain
 chmod 777 .env
@@ -19,5 +28,9 @@ rm -rf .data.nockchain
 nockchain-wallet import-master-pubkey --key $wallet_address --chain-code $chain_code
 
 # start
-# make run-nockchain
-nockchain --mining-pubkey $wallet_address --mine --peer /ip4/95.216.102.60/udp/3006/quic-v1 --peer /ip4/65.108.123.225/udp/3006/quic-v1 --peer /ip4/65.109.156.108/udp/3006/quic-v1 --peer /ip4/65.21.67.175/udp/3006/quic-v1 --peer /ip4/65.109.156.172/udp/3006/quic-v1 --peer /ip4/34.174.22.166/udp/3006/quic-v1 --peer /ip4/34.95.155.151/udp/30000/quic-v1 --peer /ip4/34.18.98.38/udp/30000/quic-v1
+nockchain --mining-pubkey $wallet_address --mine $peer_args
+
+exit_code=$?
+echo "nockchain exited with code $exit_code, sleeping 60 seconds before exit..."
+sleep 60
+exit $exit_code

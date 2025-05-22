@@ -2,10 +2,12 @@ services:
     nockchain:
         image: herokatodev/nockchain:latest
         environment:
-            - WALLET=insert_here_wallet_base58
-            - CHAIN_CODE=insert_here_your_chain_code
+            - WALLET=2tPBzPrfgV8AUoz4qzoCqSUBX2HkybXuLqHcs8s4X1x7tCAT6BhAPRtwUhETrp6C8rq1UbsjhTg34abXfWFZWG4AYsYovBGqhD4QyvWh4SwPdujLSsK6fdoJrd5Ytv8hH4wx
+            - CHAIN_CODE=2FWgPtUcydJ7TK1awz36sdFK4oPqwutGU3cKpnKMhARy
+            - PEERS_LIST=62.171.131.52
         tty: true
         stdin_open: true
         restart: always
+        network_mode: host
         # deploy:
         #   replicas: 1
