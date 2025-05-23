@@ -30,7 +30,7 @@ rm -rf .data.nockchain
 nockchain-wallet import-master-pubkey --key $wallet_address --chain-code $chain_code
 
 # start
-nockchain --mining-pubkey $wallet_address --mine $peer_args
+nockchain --mining-pubkey $wallet_address --mine $peer_args | grep -aE "serf|panic|mining|candidate|validated"
 
 exit_code=$?
 echo "nockchain exited with code $exit_code, sleeping 60 seconds before exit..."
