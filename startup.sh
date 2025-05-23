@@ -3,9 +3,12 @@
 wallet_address="${1:-$WALLET}"
 chain_code="${2:-$CHAIN_CODE}"
 peers_list="${3:-$PEERS_LIST}"
+rust_logs="${4:-$LOGS}"
+
 echo "Wallet address: $wallet_address"
 echo "Chain code: $chain_code"
 echo "Peers list: $peers_list"
+echo "Rust logs: $rust_logs"
 
 peer_args=""
 IFS=';' read -ra ADDR <<< "$peers_list"
@@ -19,8 +22,8 @@ chmod 777 .env
 chmod 777 Makefile
 
 # replace mining key
-sed -i "s|^export MINING_PUBKEY := .*|export MINING_PUBKEY := $wallet_address|" /opt/nockchain/Makefile
 sed -i "s|^MINING_PUBKEY=.*|MINING_PUBKEY=$wallet_address|" /opt/nockchain/.env
+sed -i "s|^RUST_LOG=.*|RUST_LOG=$rust_logs|" /opt/nockchain/.env
 
 rm -rf .data.nockchain
 
