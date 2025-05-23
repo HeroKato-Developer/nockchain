@@ -19,7 +19,6 @@ echo "Peer args: $peer_args"
 
 cd /opt/nockchain
 chmod 777 .env
-chmod 777 Makefile
 
 # replace mining key
 sed -i "s|^MINING_PUBKEY=.*|MINING_PUBKEY=$wallet_address|" /opt/nockchain/.env
